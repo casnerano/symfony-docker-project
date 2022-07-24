@@ -22,7 +22,7 @@ services:
         container_name: php
         restart: always
         volumes:
-            - .:/var/www/symfony
+            - ./:/var/www/symfony
         depends_on:
             - mysql
         networks:
@@ -35,7 +35,18 @@ services:
             - '8081:80'
             - '443:443'
         volumes:
-            - .:/var/www/symfony:ro
+            - ./:/var/www/symfony:ro
+        depends_on:
+            - php
+        networks:
+            - internal
+    node:
+        image: node:latest
+        container_name: node
+        restart: on-failure
+        volumes:
+            - ./:/var/www/symfony
+        working_dir: /var/www/symfony
         depends_on:
             - php
         networks:
